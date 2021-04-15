@@ -9,6 +9,12 @@
 	$queryToExecute = "";
 	$titleReport = "";
 
+	$hoy = getdate();
+	$day = $hoy["mday"];
+	$month = $hoy["mon"];
+	$year = $hoy["year"];
+	$dateLabel = "Fecha: " . $day . "/" . $month . "/" . $year;
+
 	$rep = array("|");
 	$cityFilter = str_replace($rep, " ", $cityFilter);
 	$agentName = str_replace($rep, " ", $agentName);
@@ -32,6 +38,7 @@
 		if (!empty($agentName)) {
 			$queryToExecute = $queryToExecute . " AND ( CONCAT_WS(' ', peo1.name, peo1.apaterno) LIKE '%" . $agentName . "%' ) ";
 		}
+		$queryToExecute = $queryToExecute . " ORDER BY s.created_at DESC ";
 
 	} else {
 		$titleReport = "Reporte de Ventas " . $cityFilter;
@@ -51,6 +58,7 @@
 		if (!empty($agentName)) {
 			$queryToExecute = $queryToExecute . " AND ( CONCAT_WS(' ', peo1.name, peo1.apaterno) LIKE '%" . $agentName . "%' ) ";
 		}
+		$queryToExecute = $queryToExecute . " ORDER BY s.created_at DESC ";
 	}
 
 	try {
@@ -80,9 +88,12 @@
  		table {
    			width: 100%;
    			border-color: black;
+   			-moz-border-radius:10px;
+    		-webkit-border-radius:10px;
+    		border-radius:10px;
 		}
 		th {
-			background: black;
+			background: #0d335d;
 			color: white;
 		}
 		th, td {
@@ -91,6 +102,9 @@
 		}
 		.text-title {
 			font-family: sans-serif;
+		}
+		img {
+			float: right;
 		}
 		caption {
 			font-weight: 250%;
@@ -102,9 +116,13 @@
  </head>
  <body>
 
+ 	<img src="../../Files/Images/casa01.jpg" width="170" height="170" />
+
  	<h1 class="text-title">DEMO PROGRAMACION 3</h1>
  	<h2 class="text-title"><?php echo $titleReport; ?></h2>
 	<h3 class="text-title"><?php echo "Registros Encontrados: " . sizeof($queryData); ?><h3/> 
+	<h4><?php echo $dateLabel; ?></h4>
+	
  	<table border="1">
  		<caption class="text-title title-table">Lista de Ventas Realizadas</caption>
  		<tr>
